@@ -1,6 +1,6 @@
 # TinyNoise
 
-TinyNoise is an efficient stochastic noise generator, based on pseudo random numbers, with a very small footprint.
+TinyNoise is an efficient stochastic noise generator written in C, based on pseudo random numbers, with a very small footprint.
 
 **Are ready to hear the noise? It is so tiny...**
 
