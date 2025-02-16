@@ -5,97 +5,62 @@
 # Since: 02.16.2025
 #
 
-# Built artifacts names
-LIB = tiny_noise
-BINARY = $(LIB)
-
-
-# Gets the Operating system name
-OS := $(shell uname -s)
-
-# Default shell
-SHELL := bash
-
-# Color prefix for Linux distributions
-COLOR_PREFIX := e
-
-# Source code directory structure
+# Directories used in the project
 BINDIR := build
 SRCDIR := src
 LIBDIR := lib
-TESTDIR := test
 
-# Source code file extension
-SRCEXT := c
+# Source files
+CFILES := $(notdir $(basename $(wildcard $(SRCDIR)/*.c)))
+#CFILES := $(wildcard $(SRCDIR)/*.c)
+#CFILES := $(basename $(wildcard $(SRCDIR)/*.c))
 
-# Defines the C Compiler
+# Object files
+OFILES := $(patsubst %,$(LIBDIR)/%.o,$(CFILES))
+
+# Compiler definition
 CC := gcc
 
-# Defines the language standards for GCC
-STD := -std=gnu99  
+# Compiler flags
+CFLAGS = -O2 -Wall -Wextra -Werror
 
-# Protection for stack-smashing attack
-STACK := -fstack-protector-all -Wstack-protector
-
-# Specifies to GCC the required warnings
-WARNS := -Wall -Wextra -pedantic 
-
-# Flags for compiling
-CFLAGS := -O3 $(STD) $(STACK) $(WARNS)
-
-# Debug options
-DEBUG := -g3 -DDEBUG=1
-
-# Test libraries
-TEST_LIBS := -l cmocka -L /usr/lib
-
-# Test source file name
-TEST_SRC := test_$(BINARY)
-
-# Tests binary file
-TEST_BINARY := $(BINARY)_test_runner
-
-# %.o file names
-NAMES := $(notdir $(basename $(wildcard $(SRCDIR)/*.$(SRCEXT))))
-OBJECTS :=$(patsubst %,$(LIBDIR)/%.o,$(NAMES))
-
+# Library name
+LIBNAME = tinynoise.a
 
 #
-# COMPILATION RULES
+# Compilation Rules
 #
 
-default: lib
+default: help
 
-# Help message
+# Help message 
 help:
 	@echo "----- TinyNoise -----"
-	@echo
 	@echo "- Target rules:"
-	@echo "    lib      - Compiles and generates a library file"
+	@echo "    all      - Compiles the static library"
 	@echo "    tests    - Compiles with cmocka and run tests binary file"
-	@echo "    clean    - Clean the project by removing binaries"
-	@echo "    help     - Prints a help message with target rules"
+	@echo "    clean    - Removes all build artifacts from lib and build folders"
+	@echo "    help     - Prints a help message with target rules (Default)"
 
 
-# Rule for generating the library file
-lib: $(OBJECTS)
+all: $(LIBNAME)
+	@echo "Done!"
+
+# Rule for static library build
+$(LIBNAME): $(OFILES)
 	@echo "Building the library..."
-	$(CC) -o $(BINDIR)/$(BINARY) $+ $(DEBUG) $(CFLAGS)
-
+	@ar rcs $(BINDIR)/$(LIBNAME) $(OFILES) 
 
 # Rule for object binaries compilation
-$(LIBDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
-	$(CC) -c $^ -o $@ $(DEBUG) $(CFLAGS)
+$(LIBDIR)/%.o: $(SRCDIR)/%.c
+	@echo "----- TinyNoise -----"
+	@echo "Compiling source files..."
+	@$(CC) -c $^ -o $@ $(CFLAGS)
 
-
-# Compile tests and run the test binary
-tests:
-	$(CC) $(TESTDIR)/$(TEST_SRC) -o $(BINDIR)/$(TEST_BINARY) $(DEBUG) $(CFLAGS) $(TEST_LIBS)
-	@which ldconfig && ldconfig -C /tmp/ld.so.cache || true 
-	@echo  "Running tests..."
-	./$(BINDIR)/$(TEST_BINARY)
-
-
-# Rule for cleaning the project
 clean:
-	@rm -rvf $(BINDIR)/* $(LIBDIR)/*;
+	@echo "----- TinyNoise -----"
+	@echo "Cleaning files..."
+	@rm -rvf $(BINDIR)/* $(LIBDIR)/*
+	@echo "Done!"
+
+.PHONY:  all clean
