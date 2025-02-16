@@ -12,8 +12,6 @@ LIBDIR := lib
 
 # Source files
 CFILES := $(notdir $(basename $(wildcard $(SRCDIR)/*.c)))
-#CFILES := $(wildcard $(SRCDIR)/*.c)
-#CFILES := $(basename $(wildcard $(SRCDIR)/*.c))
 
 # Object files
 OFILES := $(patsubst %,$(LIBDIR)/%.o,$(CFILES))

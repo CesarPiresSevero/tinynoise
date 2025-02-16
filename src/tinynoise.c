@@ -12,11 +12,18 @@
  * ============================================================================
 */
 
-#include <stdio.h>
-
 #include "tinynoise.h"
 
-int main()
+uint16_t tn_run()
 {
     return 0;
 }
+
+void tn_get_config()
+{
+}
+
+void tn_set_config()
+{
+}
+
