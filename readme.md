@@ -64,7 +64,8 @@ seeds[0]= 65106 + 12043 = 11613 = 0010110101011101
 ### Features
 
 * Computationally and memory efficient algorithm 
-* Gaussian and non-Gaussian noise
-* White, brown or pink noise can be configured
-* Unit tested using Cmocka
+* No math library needed
+* Gaussian and non-Gaussian noise options
+* White, brown or pink noise available
+* Unit-tested using Cmocka
 
