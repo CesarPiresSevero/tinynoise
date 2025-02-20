@@ -5,23 +5,16 @@
 * @date 2/17/2025
 */
 
-/*  ---------- Includes ---------- */
+/* Includes */
 #include "tinynoise.h"
 
-/*  ---------- Defines ---------- */
-#define DEF_DISTRIB NORMAL
-#define DEF_COLOR WHITE
-#define DEF_SEED1 65321u
-#define DEF_SEED2 12043u
-#define DEF_SEED3 2769u
-
-/*  ---------- Static Variables ---------- */
+/* Static Variables */
 static distrib_t distrib = DEF_DISTRIB;
 static color_t color = DEF_COLOR;
 static uint16_t seed[3] = {DEF_SEED1, DEF_SEED2 ,DEF_SEED3};
 static uint8_t gama = 0;
 
-/*  ---------- Functions ---------- */
+/* Functions */
 void tn_set_distrib(distrib_t new_distrib)
 {
     distrib = new_distrib;

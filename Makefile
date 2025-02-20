@@ -33,20 +33,21 @@ CFLAGS = -O2 -Wall -Wextra -Werror
 IFLAGS = -I$(SRCDIR)
 
 # Library name
-LIBNAME = tinynoise.a
+LIBNAME = tinynoise
 
 # Library linking flags
-LDFLAGS= -L$(BINDIR) -l$(LIBNAME) 
+LDFLAGS= -L$(BINDIR) -l$(LIBNAME) -lm 
 
 #
 # Compilation Rules
 #
 
+$(info ----- TinyNoise -----)
+
 default: help
 
 # Help message 
 help:
-	@echo "----- TinyNoise -----"
 	@echo "- Target rules:"
 	@echo "    all      - Compiles the static library"
 	@echo "    tests    - Compiles with cmocka and run tests binary file"
@@ -54,36 +55,34 @@ help:
 	@echo "    help     - Prints a help message with target rules (Default)"
 
 # Rule for building objects and static library
-all: $(LIBNAME)
-	@echo "Done!"
+all: $(LIBNAME).a
+	$(info Done!)
 
 # Rule for static library build
-$(LIBNAME): $(OFILES)
-	@echo "Building the library..."
-	@ar rcs $(BINDIR)/$(LIBNAME) $(OFILES) 
+$(LIBNAME).a: $(OFILES)
+	$(info Building the library...)
+	@ar rcs $(BINDIR)/$(LIBNAME).a $(OFILES) 
 
 # Rule for object binaries compilation
 $(LIBDIR)/%.o: $(SRCDIR)/%.c
-	@echo "----- TinyNoise -----"
-	@echo "Compiling source files..."
+	$(info Compiling source files...)
 	@$(CC) -c $^ -o $@ $(CFLAGS)
 
 # Rule for test executable build
-test: $(LIBNAME) $(BINDIR)/$(TESTEXE)
-	@echo "Done!"
+tests: $(LIBNAME).a $(BINDIR)/$(TESTEXE)
+	$(info Done!)
 	
 $(BINDIR)/$(TESTEXE): $(LIBDIR)/$(TESTSRC).o
-	@echo "Building test executable..."
+	$(info Building test executable...)
 	@$(CC) -o $(BINDIR)/$(TESTEXE) $(LIBDIR)/$(TESTSRC).o
 
 $(LIBDIR)/$(TESTSRC).o: $(TESTDIR)/$(TESTSRC).c 
-	@$(CC) -c $^ -o $@ $(IFLAGS) $(LDFLAGS) $(CFLAGS)
+	@$(CC) -c $^ -o $@ $(IFLAGS) $(CFLAGS) $(LDFLAGS)
 
 # Rule for build artifacts clean
 clean:
-	@echo "----- TinyNoise -----"
-	@echo "Cleaning files..."
+	$(info  Cleaning files...)
 	@rm -rvf $(BINDIR)/* $(LIBDIR)/*
-	@echo "Done!"
+	$(info Done!)
 
-.PHONY:  all clean test
+.PHONY:  all clean tests

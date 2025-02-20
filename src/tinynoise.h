@@ -10,6 +10,17 @@
 
 #include <stdint.h>
 
+/** @brief Default distribution type*/
+#define DEF_DISTRIB NORMAL
+/** @brief Default noise color*/
+#define DEF_COLOR WHITE
+/** @brief Default first seed*/
+#define DEF_SEED1 65321u
+/** @brief Default second seed*/
+#define DEF_SEED2 12043u
+/** @brief Default third seed*/
+#define DEF_SEED3 2769u
+
 /**
  * @brief Signal distribution type 
  */
