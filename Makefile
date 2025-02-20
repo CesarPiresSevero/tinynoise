@@ -49,13 +49,18 @@ default: help
 # Help message 
 help:
 	@echo "- Target rules:"
-	@echo "    all      - Compiles the static library"
+	@echo "    all      - Cleans, compiles and test the library"
+	@echo "    lib      - Compiles the static library"
 	@echo "    tests    - Compiles with cmocka and run tests binary file"
 	@echo "    clean    - Removes all build artifacts from lib and build folders"
 	@echo "    help     - Prints a help message with target rules (Default)"
 
+# Rule for cleaning, building and testing library
+all: clean tests
+	$(info Done!)
+
 # Rule for building objects and static library
-all: lib$(LIBNAME).a
+lib: lib$(LIBNAME).a
 	$(info Done!)
 
 # Rule for static library build
@@ -70,7 +75,8 @@ $(LIBDIR)/%.o: $(SRCDIR)/%.c
 
 # Rule for test executable build
 tests: lib$(LIBNAME).a $(BINDIR)/$(TESTEXE)
-	$(info Done!)
+	$(info Running tests...)
+	@./$(BINDIR)/$(TESTEXE)
 	
 $(BINDIR)/$(TESTEXE): $(LIBDIR)/$(TESTSRC).o
 	$(info Building test executable...)
@@ -85,4 +91,4 @@ clean:
 	@rm -rvf $(BINDIR)/* $(LIBDIR)/*
 	$(info Done!)
 
-.PHONY:  all clean tests
+.PHONY:  all lib clean tests
