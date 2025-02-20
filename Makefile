@@ -36,7 +36,7 @@ IFLAGS = -I$(SRCDIR)
 LIBNAME = tinynoise
 
 # Library linking flags
-LDFLAGS= -L$(BINDIR) -l$(LIBNAME) -lm 
+LDFLAGS= -L$(BINDIR) -l$(LIBNAME)
 
 #
 # Compilation Rules
@@ -55,13 +55,13 @@ help:
 	@echo "    help     - Prints a help message with target rules (Default)"
 
 # Rule for building objects and static library
-all: $(LIBNAME).a
+all: lib$(LIBNAME).a
 	$(info Done!)
 
 # Rule for static library build
-$(LIBNAME).a: $(OFILES)
+lib$(LIBNAME).a: $(OFILES)
 	$(info Building the library...)
-	@ar rcs $(BINDIR)/$(LIBNAME).a $(OFILES) 
+	@ar rcs $(BINDIR)/lib$(LIBNAME).a $(OFILES) 
 
 # Rule for object binaries compilation
 $(LIBDIR)/%.o: $(SRCDIR)/%.c
@@ -69,15 +69,15 @@ $(LIBDIR)/%.o: $(SRCDIR)/%.c
 	@$(CC) -c $^ -o $@ $(CFLAGS)
 
 # Rule for test executable build
-tests: $(LIBNAME).a $(BINDIR)/$(TESTEXE)
+tests: lib$(LIBNAME).a $(BINDIR)/$(TESTEXE)
 	$(info Done!)
 	
 $(BINDIR)/$(TESTEXE): $(LIBDIR)/$(TESTSRC).o
 	$(info Building test executable...)
-	@$(CC) -o $(BINDIR)/$(TESTEXE) $(LIBDIR)/$(TESTSRC).o
+	@$(CC) $(LIBDIR)/$(TESTSRC).o $(LDFLAGS) -o $(BINDIR)/$(TESTEXE)  
 
 $(LIBDIR)/$(TESTSRC).o: $(TESTDIR)/$(TESTSRC).c 
-	@$(CC) -c $^ -o $@ $(IFLAGS) $(CFLAGS) $(LDFLAGS)
+	@$(CC) -c $^ -o $@ $(CFLAGS) $(IFLAGS) 
 
 # Rule for build artifacts clean
 clean:
