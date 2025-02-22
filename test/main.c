@@ -4,11 +4,16 @@
 
 int main()
 {
-    printf("Hello World!\n");
+
+    FILE *fptr;
+
+    fptr = fopen("log.txt", "w");
+
     for(uint16_t i=0; i<10; i++)
     {
         uint16_t val = tn_run();
-        printf("%d\n",val);
+        fprintf(fptr,"%x\n",val);
     }
+    fclose(fptr); 
 }
 
