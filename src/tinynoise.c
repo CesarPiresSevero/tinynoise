@@ -14,15 +14,14 @@ static color_t color = DEF_COLOR;
 static uint16_t seed[3] = {DEF_SEED1, DEF_SEED2 ,DEF_SEED3};
 static uint8_t gama = 0u;
 static uint8_t seed_counter = 0u;
+static uint16_t prev_rand = 0;
 
 /* Static functions */
 static uint16_t tn_get_rand()
 {
-    /* Saves previous output number */
-    static uint16_t prev_out = 0;
     /* Generating new sample */
     uint32_t accum = (uint32_t)(seed[seed_counter] * seed[seed_counter]);
-    uint16_t output = (uint16_t)(accum >> (16 - gama));
+    uint16_t rand = (uint16_t)(accum >> (16 - gama));
     /* Updating gama */
     if(gama == 15u)
     {
@@ -35,18 +34,18 @@ static uint16_t tn_get_rand()
     /* Updating seeds */
     if(seed_counter == 2u)
     {
-        seed[seed_counter] = output + seed[0u];
+        seed[seed_counter] = rand + seed[0u];
         seed_counter = 0u;
     }
     else
     {
-        seed[seed_counter] = output + seed[seed_counter + 1u];
+        seed[seed_counter] = rand + seed[seed_counter + 1u];
         seed_counter++;
     }
-    /* Updating previous output */
-    output = prev_out + output;
-    prev_out = output;
-    return output;
+    /* Updating previous random number */
+    rand = prev_rand + rand;
+    prev_rand = rand;
+    return rand;
 }
 
 /* Functions */
@@ -76,14 +75,20 @@ void tn_reset(void)
     seed[2] = DEF_SEED3;
     gama = 0u;
     seed_counter = 0u;
+    prev_rand = 0u;
 }
 
 uint16_t tn_run(void)
 {
-    uint16_t rand_num = tn_get_rand();
+    uint16_t output = tn_get_rand();
+//     static uint16_t prev_out = 0;
     if(distrib == NORMAL)
     {
+//         output = (prev_out - output)>>1;
+//         output = (prev_out + output)>>1;
+
+//         prev_out = output;
     }
-    return rand_num;
+    return output;
 }
 

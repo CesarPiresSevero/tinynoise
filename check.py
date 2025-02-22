@@ -1,10 +1,6 @@
-import math
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy.io.wavfile as wav
-import os
 
-########################## Plotting ##################################
 f = open("log.txt", "r")
 lines = f.readlines()
 data =[]
@@ -13,7 +9,7 @@ for line in lines:
     line=int(line,16)
     line=(line/(2**15-1))-1
     data.append(line)
-data=np.asarray(data, dtype=np.float32) #Normalized
+data=np.asarray(data, dtype=np.float32)
 fig1, (ax1_1, ax2_1) = plt.subplots(1, 2)
 fig1.suptitle('White Noise Generator Results')
 count, bins, ignored = ax1_1.hist(data, 30, density=True)
