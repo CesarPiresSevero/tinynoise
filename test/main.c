@@ -9,7 +9,7 @@ int main()
 
     fptr = fopen("log.txt", "w");
 
-    for(uint16_t i=0; i<10; i++)
+    for(uint32_t i=0; i<100000; i++)
     {
         uint16_t val = tn_run();
         fprintf(fptr,"%x\n",val);

@@ -79,10 +79,8 @@ void tn_reset(void)
 
 uint16_t tn_run(void)
 {
-    static uint16_t prev_num = 0;
-    
     uint16_t rand_num = tn_get_rand();
-   
+    static uint16_t prev_num = 0;
     if(distrib == NORMAL)
     {
         rand_num = prev_num + rand_num;
