@@ -7,10 +7,6 @@
 
 /* Includes */
 #include "tinynoise.h"
-//TEST
-#include <stdio.h>
-//TEST
-
 
 /* Static Variables */
 static distrib_t distrib = DEF_DISTRIB;
@@ -22,6 +18,8 @@ static uint8_t seed_counter = 0u;
 /* Static functions */
 static uint16_t tn_get_rand()
 {
+    /* Saves previous output number */
+    static uint16_t prev_out = 0;
     /* Generating new sample */
     uint32_t accum = (uint32_t)(seed[seed_counter] * seed[seed_counter]);
     uint16_t output = (uint16_t)(accum >> (16 - gama));
@@ -45,6 +43,9 @@ static uint16_t tn_get_rand()
         seed[seed_counter] = output + seed[seed_counter + 1u];
         seed_counter++;
     }
+    /* Updating previous output */
+    output = prev_out + output;
+    prev_out = output;
     return output;
 }
 
@@ -73,21 +74,16 @@ void tn_reset(void)
     seed[0] = DEF_SEED1;
     seed[1] = DEF_SEED2;
     seed[2] = DEF_SEED3;
-    gama = 0;
-    seed_counter = 0;
+    gama = 0u;
+    seed_counter = 0u;
 }
 
 uint16_t tn_run(void)
 {
     uint16_t rand_num = tn_get_rand();
-    static uint16_t prev_num = 0;
     if(distrib == NORMAL)
     {
-        rand_num = prev_num + rand_num;
-        prev_num = rand_num;
     }
-    
-
     return rand_num;
 }
 

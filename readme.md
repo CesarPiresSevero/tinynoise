@@ -59,7 +59,16 @@ For seed_counter = 0
 seeds[0]= 65106 + 12043 = 11613 = 0010110101011101
 ```
 
-* Note that the value above overflew and there is no problem with overflow
+Note that the value above overflew and there is no problem with overflow
+
+5. The final step is to add the previous sample to the output. This way the distribution will be normalized.
+
+```
+val = val + prev_val
+prev_val = val
+```
+
+Update the previous sample value too. For the first loop, it is initialized to zero.
 
 ### Features
 

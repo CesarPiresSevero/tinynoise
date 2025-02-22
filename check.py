@@ -11,7 +11,8 @@ data =[]
 for line in lines:
     line = line.replace("\n", "")
     line=int(line,16)
-    data.append((line/(2**15-1))-1)
+    line=(line/(2**15-1))-1
+    data.append(line)
 data=np.asarray(data, dtype=np.float32) #Normalized
 fig1, (ax1_1, ax2_1) = plt.subplots(1, 2)
 fig1.suptitle('White Noise Generator Results')
