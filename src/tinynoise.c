@@ -80,15 +80,30 @@ void tn_reset(void)
 
 uint16_t tn_run(void)
 {
-    uint16_t output = tn_get_rand();
-//     static uint16_t prev_out = 0;
+    uint16_t rand = tn_get_rand();
+    static uint16_t prev_rand = 0u;
+    uint16_t output = 0u;
+
     if(distrib == NORMAL)
     {
-//         output = (prev_out - output)>>1;
-//         output = (prev_out + output)>>1;
-
-//         prev_out = output;
     }
+
+    if(color == WHITE)
+    {
+        output = rand;
+    }
+
+    else if(color == PINK)
+    {
+    }
+
+    else if(color == BROWN)
+    {
+        output = (prev_rand + rand) >> 1;
+    }
+
+    prev_rand = rand;
+
     return output;
 }
 
