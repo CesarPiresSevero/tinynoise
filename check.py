@@ -15,6 +15,7 @@ def get_fft(array,fs):
     # FFT amplitude is always half of the FFT points
     # In this case N-FFT ( np.fft.fft(array,len(array)) ) is the same as the lenght of the input array ( len(array) )
     return freq,fr,t #Array, frequency in hz, time in sec
+
 # f = open("log1.txt", "r")
 # lines = f.readlines()
 # data =[]
@@ -23,7 +24,7 @@ def get_fft(array,fs):
 #     line=int(line,16)
 #     line=(line/(2**15-1))-1
 #     data.append(line)
-# u1=np.asarray(data, dtype=np.float32)
+# output=np.asarray(data, dtype=np.float32)
 
 f = open("log.txt", "r")
 lines = f.readlines()
@@ -33,29 +34,25 @@ for line in lines:
     line=int(line,16)
     line=(line/(2**15-1))-1
     data.append(line)
-u2=np.asarray(data, dtype=np.float32)
+output=np.asarray(data, dtype=np.float32)
 
-# u2=np.random.normal(size=10**5)
-u2=np.random.uniform(size=10**5)
+output=np.random.normal(scale=0.25,size=10**5)
+output=np.random.uniform(low=-1.0,high=1.0,size=10**5)
 
-Tinnitus_array_fft,Tinnitus_fr,Tinnitus_t=get_fft(u2,1)
+output_fft,output_fr,output_t=get_fft(output,1)
 
-data=np.asarray(u2, dtype=np.float32)
-fig1, (ax1_1, ax2_1) = plt.subplots(1, 2)
+data=np.asarray(output, dtype=np.float32)
+fig1, (ax1_1, ax2_1, ax3_1) = plt.subplots(1, 3)
 fig1.suptitle(plot_title)
 count, bins, ignored = ax1_1.hist(data, 30, density=True)
 ax1_1.plot(bins, 1/(np.std(data) * np.sqrt(2 * np.pi)) *np.exp( - (bins - data.mean())**2 / (2 * np.std(data)**2) ),linewidth=2, color='r')
-ax1_1.set(xlabel='Amplitude',ylabel='samples')
+ax1_1.set(xlabel='Amplitude',ylabel='Probability Density')
 ax2_1.specgram(data, Fs= 1, NFFT= 128, noverlap=64)
-ax2_1.set(xlabel='Seconds',ylabel='Frequency')
+ax2_1.set(xlabel='Samples',ylabel='Frequency')
+ax3_1.plot(output_fr,20*np.log10(output_fft),'b');
+ax3_1.set(xlabel='Frequency',ylabel='Magnitude')
 plt.show()
 
 
 
 
-plt.figure()
-plt.ylabel('Magnitude')
-plt.plot(Tinnitus_fr,20*np.log10(Tinnitus_array_fft),'b'); plt.title(plot_title)
-plt.xlabel('Frequency');plt.ylabel('Magnitude')
-plt.grid()
-plt.show()
