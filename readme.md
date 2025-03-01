@@ -95,6 +95,41 @@ For comparison, here is the output of Python's Numpy random uniform implementati
 
 This section will go into detail about the pseudo random number implementation of the algorithm above to generate noise. The generated noise is intended to be used in audio applications.
 
+### Compiling
+
+This repo contains a Makefile for building the library and running tests. Calling *make* in the root folder results in: 
+
+```
+----- TinyNoise -----
+- Target rules:
+    all      - Cleans, compiles and test the library
+    lib      - Compiles the static library
+    tests    - Compiles with cmocka and run tests binary file
+    clean    - Removes all build artifacts from lib and build folders
+    help     - Prints a help message with target rules (Default)
+```
+
+To build the static library (**libtinynoise.a**) and run cmocka tests, run the following command:
+
+```
+make all
+```
+
+It output the following message:
+
+```
+----- TinyNoise -----
+Cleaning files...
+Done!
+Compiling source files...
+Building the library...
+Building test executable...
+Running tests...
+Done!
+```
+
+Built artifacts can be found in the **build** folder.
+
 ### Usage
 
 TinyNoise library can be included in your project by:
@@ -147,10 +182,27 @@ The default color is **white**. To change it just follow the example below:
 tn_set_color(PINK);
 ``` 
 
-Here is the expected PSD of the signal based on the different colors:
+Here is the expected PSD (in dB) of the signal based on the different colors, from left to right, white, brown and pink:
 
 ![TinyNoiseColors](img/TinyNoiseColors.png)
 
+#### void tn_set_seed(uint16_t seed1, uint16_t seed2, uint16_t seed3);
+
+Seeds used by the pseudo random number generator can be changed via this API. The seeds will change the sequence of the random signal. That means, if the seeds are unchanged, TinyNoise will always output the same value sequence. Thus, the output is predictable and will always be the same.
+In case this behavior is not desired, the seeds can be changed to whatever 16 bit value. It is important to keep in mind that there is such a thing as a "good seed". Seeds need to be spread around the range of the 16 bits for the algorithm to work as expected. Otherwise, it can get stuck in some values, which will result in weird harmonics or straight out zeros as output.
+Here is an example of acceptable seeds:
+
+```
+tn_set_seed(18731,55,61925);
+```
+
+#### void tn_reset(void);
+
+This API will reset all the parameters used by TinyNoise library, also setting both the noise color and the seeds to default value.
+
+```
+tn_reset();
+```
 
 #### int16_t tn_run(void);
 
