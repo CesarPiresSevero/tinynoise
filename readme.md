@@ -15,12 +15,16 @@ I believe in **free and open source software**! Help the OSS community by donati
 Random number generation with 16 bit variable
 * Using 3 seeds
 * Just 2 counters
-* Only one squared, one addition operation and one shift
+* Only one multiplication, two additions and one shift operation
 * Only 10 bytes need for RAM
 
-### The algorithm
+### Pseudo Random Number Generator Algorithm
 
-1. Take the seed using counter to select between the 3. The counter is increased by 1 every loop. Here is an example of 3 seeds.
+The algorithm described below was designed by me. It was an effort to create a fix point, low footprint stochastic noise generator for integration on a low power DSP chip. This signal was used, after filtering, for tinnitus treatment.
+
+#### Implementation
+
+1. Take a seed using the counter to select it. The counter is increased by 1 every loop. Here is an example of 3 seeds:
 
 ```
 seeds = [65321,12043,2769]
@@ -28,13 +32,13 @@ seeds = [65321,12043,2769]
 val = seeds[seed_counter] = 65321 = 1111111100101001
 ```
 
-2. Square the current "val"  value to get twice the size (32 bit now)
+2. Square the current value to get twice the size (in this example, from 16 bit to 32 bit).
 
 ```
 val = val * val = 11111110010100101011010010010001
 ```
 
-3. Select the output based on the gama factor. Gama, same as seed counter, gets updated every loop, being that the maximum is the number of bits precision, this case 16 (0 to 15)
+3. Crop the current sample based on the gama factor. Gama, same as seed counter, gets updated by 1 every loop, being that the maximum is the number of bits, this case 16 bits (0 to 15).
 
 ```
 11111110010100101011010010010001
@@ -45,36 +49,45 @@ val = val * val = 11111110010100101011010010010001
                |     gama=15    |
 ```
 
-For gama=0, the output value will be 1111111001010010 or 65106
+For **gama = 0**, the output value will be **1111111001010010** or **65106**.
 
-4. Next step is to update the seeds. Using the output value, add this value to the next seed. Hence the values will be even more likely to imitate random behaviour. 
+4. Next step is to update the seeds. Update the seed by adding the current value to the next seed. Hence, the output will be even more likely to imitate random behaviour. 
 
 ```
 seeds[seed_counter] = val + seeds[seed_counter + 1]
 ```
 
-For seed_counter = 0
+For **seed_counter = 0**:
 
 ```
 seeds[0]= 65106 + 12043 = 11613 = 0010110101011101
 ```
 
-Note that the value above overflew and there is no problem with overflow
+Note that the value above overflew and there is no problem with it for this algorithm.
 
-5. The final step is to add the previous sample to the output. This way the distribution will be normalized.
+5. The final step is to add the previous sample to the output.
 
 ```
-val = val + prev_val
+output = val + prev_val
 prev_val = val
 ```
 
-Update the previous sample value too. For the first loop, it is initialized to zero.
+Update the previous sample value too. For the first loop, **prev_val** is initialized to zero.
+
+### Results
+
+The algorithm above has a uniform distribution with flat spectral composition. The plot below shows the output of it for 100k samples:
+
+![TinyNoiseUniform](img/TinyNoiseUniform.png)
+
+For comparison, here is the output of Python's Numpy random uniform implementation:
+
+![NumpyRandomUniform](img/NumpyRandomUniform.png)
 
 ### Features
 
 * Computationally and memory efficient algorithm 
 * No math library needed
-* Gaussian and non-Gaussian noise options
 * White, brown or pink noise available
 * Unit-tested using Cmocka
 

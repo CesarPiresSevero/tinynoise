@@ -48,7 +48,7 @@ output=np.asarray(data, dtype=np.float32)
 # output = lp_filter(output)
 # output = lp_filter(lp_filter(output))
 # output = hp_filter(output)
-output = hp_filter(hp_filter(output))
+# output = hp_filter(hp_filter(output))
 
 # Plotting data
 output_fft,output_fr,output_t=get_fft(output,1)
