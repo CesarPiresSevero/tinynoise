@@ -10,8 +10,6 @@
 
 #include <stdint.h>
 
-/** @brief Default distribution type*/
-#define DEF_DISTRIB NORMAL
 /** @brief Default noise color*/
 #define DEF_COLOR WHITE
 /** @brief Default first seed*/
@@ -22,15 +20,6 @@
 #define DEF_SEED3 2769u
 
 /**
- * @brief Signal distribution type 
- */
-typedef enum
-{
-    NORMAL,
-    UNIFORM
-}distrib_t;
-
-/**
  * @brief Noise color type
  */
 typedef enum
@@ -39,12 +28,6 @@ typedef enum
     BROWN,
     PINK
 }color_t;
-
-/**
-* @brief Distribution type set function
-* @param new_distrib Distribution type (NORMAL or UNIFORM)
-*/
-void tn_set_distrib(distrib_t new_distrib);
 
 /**
 * @brief Noise color set function
@@ -69,7 +52,7 @@ void tn_reset(void);
 * @brief Noise generation function  
 * @return uint16_t New noise data point
 */
-uint16_t tn_run(void);
+int16_t tn_run(void);
 
 
 #endif // TINYNOISE_H

@@ -12,17 +12,24 @@ I believe in **free and open source software**! Help the OSS community by donati
 
 ## Overview
 
-Random number generation with 16 bit variable
-* Using 3 seeds
-* Just 2 counters
-* Only one multiplication, two additions and one shift operation
-* Only 10 bytes need for RAM
+### Features
+
+* Computationally and memory efficient algorithm 
+* No math library needed
+* White, brown or pink noise available
+* Unit-tested using Cmocka
 
 ### Pseudo Random Number Generator Algorithm
 
 The algorithm described below was designed by me. It was an effort to create a fix point, low footprint stochastic noise generator for integration on a low power DSP chip. This signal was used, after filtering, for tinnitus treatment.
 
 #### Implementation
+
+Random number generation with 16 bit variable
+* Using 3 seeds
+* Just 2 counters
+* Only one multiplication, two additions and one shift operation
+* Only 10 bytes need for RAM
 
 1. Take a seed using the counter to select it. The counter is increased by 1 every loop. Here is an example of 3 seeds:
 
@@ -74,7 +81,7 @@ prev_val = val
 
 Update the previous sample value too. For the first loop, **prev_val** is initialized to zero.
 
-### Results
+#### Results
 
 The algorithm above has a uniform distribution with flat spectral composition. The plot below shows the output of it for 100k samples:
 
@@ -84,10 +91,5 @@ For comparison, here is the output of Python's Numpy random uniform implementati
 
 ![NumpyRandomUniform](img/NumpyRandomUniform.png)
 
-### Features
-
-* Computationally and memory efficient algorithm 
-* No math library needed
-* White, brown or pink noise available
-* Unit-tested using Cmocka
+## Usage
 

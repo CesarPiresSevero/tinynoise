@@ -2,8 +2,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy
+from pyfi import fi
 
-plot_title = "Tiny Noise Uniform High Pass"
+plot_title = "Tiny Noise Uniform"
 
 # Helper Funcs
 def get_fft(array,fs):
@@ -33,11 +34,11 @@ def hp_filter(indata):
 f = open("log.txt", "r")
 lines = f.readlines()
 data =[]
+fi_obj = fi(word_len=16,frac_len=15,fixed=False,return_val=True)
 for line in lines:
     line = line.replace("\n", "")
     line=int(line,16)
-    line=(line/(2**15-1))-1
-    data.append(line)
+    data.append(fi_obj(line))
 output=np.asarray(data, dtype=np.float32)
 
 # Numpy random generators
