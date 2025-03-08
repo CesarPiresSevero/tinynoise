@@ -83,13 +83,26 @@ Update the previous sample value too. For the first loop, *prev_val* is initiali
 
 #### Results
 
-The algorithm above has a uniform distribution with flat spectral composition. The plot below shows the output of it for 100k samples:
+##### Stochastic process
+The algorithm above has a uniform distribution with flat spectral composition. Python's matplotlib was used for plotting the results of TinyNoise library. The 16 bit fixed-point values (Q15 format) were converted to floats using [PyFi](https://github.com/CesarPiresSevero/pyfi) library before plotting. 
+
+The plot below shows the output of it for 100k samples:
 
 ![TinyNoiseUniform](img/TinyNoiseUniform.png)
 
 For comparison, here is the output of Python's Numpy random uniform implementation:
 
 ![NumpyRandomUniform](img/NumpyRandomUniform.png)
+
+##### Computational performance
+The algorithm performance was benchmarked against C rand() function (included in stdlib). Both implementations went through one billion loops and the execution time for each was measured. The results below are an average of five measurements:
+
+Implementation | Execution time
+:---:|:---:
+C rand | **22.93** 
+TinyNoise | **5.35**
+
+There are many factors that might affect the execution time. Therefore, the values above should be understood as an indication of computational performance.  
 
 ## Getting started
 
