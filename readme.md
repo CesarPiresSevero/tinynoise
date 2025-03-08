@@ -95,12 +95,12 @@ For comparison, here is the output of Python's Numpy random uniform implementati
 ![NumpyRandomUniform](img/NumpyRandomUniform.png)
 
 ##### Computational performance
-The algorithm performance was benchmarked against C rand() function (included in stdlib). Both implementations went through one billion loops and the execution time for each was measured. The results below are an average of five measurements:
+The algorithm performance was benchmarked against C rand() function (included in stdlib). Execution time was measured based on one billion samples. The results below are an average of five measurements:
 
 Implementation | Execution time
 :---:|:---:
-C rand | **22.93** 
-TinyNoise | **5.35**
+C rand | **22.93 seconds** 
+TinyNoise | **5.35 seconds**
 
 There are many factors that might affect the execution time. Therefore, the values above should be understood as an indication of computational performance.  
 
@@ -172,11 +172,11 @@ $(LIBDIR)/$(MYSRC).o: $(MYDIR)/$(MYSRC).c
  
 The example above shows the linking of the library follow this repo folder structure. Feel free to change it to your needs.
 
-### APIs Refence
+## APIs Refence
 
 TinyNoise library follows the KISS approach (Keep It Stupid Simple). Therefore, there are just 4 APIs available. They are focused on the user and the different implementations that might be done using the library.
 
-#### void tn_set_color(color_t new_color);
+### void tn_set_color(color_t new_color);
 
 Selecting the noise color (white, brown or pink) will change the frequency components of the signal. The colors are defined as:
 
@@ -199,7 +199,7 @@ Here is the expected PSD (in dB) of the signal based on the different colors, fr
 
 ![TinyNoiseColors](img/TinyNoiseColors.png)
 
-#### void tn_set_seed(uint16_t seed1, uint16_t seed2, uint16_t seed3);
+### void tn_set_seed(uint16_t seed1, uint16_t seed2, uint16_t seed3);
 
 Seeds used by the pseudo random number generator can be changed via this API. The seeds will change the sequence of the random signal. That means, if the seeds are unchanged, TinyNoise will always output the same value sequence. Thus, the output is predictable and will always be the same.
 In case this behavior is not desired, the seeds can be changed to whatever 16 bit value. It is important to keep in mind that there is such a thing as a "good seed". Seeds need to be spread around the range of the 16 bits for the algorithm to work as expected. Otherwise, it can get stuck in some values, which will result in weird harmonics or straight out zeros as output.
@@ -209,7 +209,7 @@ Here is an example of acceptable seeds:
 tn_set_seed(18731,55,61925);
 ```
 
-#### void tn_reset(void);
+### void tn_reset(void);
 
 This API will reset all the parameters used by TinyNoise library, also setting both the noise color and the seeds to default value.
 
@@ -217,7 +217,7 @@ This API will reset all the parameters used by TinyNoise library, also setting b
 tn_reset();
 ```
 
-#### int16_t tn_run(void);
+### int16_t tn_run(void);
 
 TinyNoise has as output a **signed 16 bit in fixed-point Q15 format** value. To get a noise sample call the function:
 
