@@ -104,6 +104,10 @@ TinyNoise | **5.35 seconds**
 
 There are many factors that might affect the execution time. Therefore, the values above should be understood as an indication of computational performance.  
 
+##### Repetition
+The algorithm was tested for sequence repetition. The first initial 5 numbers, based on default seeds, were compared against one billion samples.
+It was found that this **sequence does not repeat itself** for within these one billion samples. It is very likely that there is no repetition whatsoever, but a much larger dataset would have to be used to confirm it.
+
 ## Getting started
 
 This section will go into detail about the pseudo random number implementation of the algorithm above to generate noise. The generated noise is intended to be used in audio applications.

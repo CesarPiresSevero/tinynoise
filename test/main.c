@@ -4,7 +4,8 @@
 #include <time.h>
 #include <tinynoise.h>
 
-#define LOOP 1000000000
+// #define LOOP 1000000000
+#define LOOP 100000
 
 int main()
 {
@@ -34,7 +35,7 @@ int main()
 
     fptr = fopen("log.txt", "w");
 
-    for(uint32_t i=0; i<100000; i++)
+    for(uint32_t i=0; i<LOOP; i++)
     {
         int16_t val = tn_run();
         fprintf(fptr,"%hx\n", val);
