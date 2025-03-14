@@ -105,8 +105,9 @@ TinyNoise | **5.35 seconds**
 There are many factors that might affect the execution time. Therefore, the values above should be understood as an indication of computational performance.  
 
 ##### Repetition
-The algorithm was tested for sequence repetition. The first initial 5 numbers, based on default seeds, were compared against one billion samples.
-It was found that this **sequence does not repeat itself** for within these one billion samples. It is very likely that there is no repetition whatsoever, but a much larger dataset would have to be used to confirm it.
+The algorithm was tested for sequence repetition. The first 5 initial samples, based on default seeds, were compared against one billion samples.
+It was found that the initial **sequence does not repeat itself** within one billion samples. It is very likely that there is no repetition whatsoever, but a much larger dataset would have to be used to confirm it.
+The same test was performed on C rand() function. The results were the same as this algorithm, no repetition was found.
 
 ## Getting started
 
