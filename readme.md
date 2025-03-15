@@ -17,7 +17,7 @@ I believe in **free and open source software**! Help the OSS community by donati
 * Computationally and memory efficient algorithm 
 * No math library used
 * White, brown and pink noise options
-* Unit-tested using Cmocka
+* Unit-tested using XXXX
 
 ### Pseudo Random Number Generator Algorithm
 
@@ -115,6 +115,11 @@ This section will go into detail about the pseudo random number implementation o
 
 ### Compiling
 
+Make sure you have the following tools before start:
+* GCC
+* Make
+* XXXX
+
 This repo contains a Makefile for building the library and running tests. Calling *make* in the root folder results in: 
 
 ```
@@ -122,12 +127,12 @@ This repo contains a Makefile for building the library and running tests. Callin
 - Target rules:
     all      - Cleans, compiles and test the library
     lib      - Compiles the static library
-    tests    - Compiles with cmocka and run tests binary file
+    tests    - Compiles with XXXX and run tests binary file
     clean    - Removes all build artifacts from lib and build folders
     help     - Prints a help message with target rules (Default)
 ```
 
-To build the static library (**libtinynoise.a**) and run cmocka tests, run the following command:
+To build the static library (**libtinynoise.a**) and run XXXX tests, run the following command:
 
 ```
 make all
