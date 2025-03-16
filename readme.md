@@ -176,6 +176,7 @@ Alternatively, the following rule can be used to clean, build the library, build
 ```shell
 make all
 ```
+Keep in mind that the tests are very basic, mostly for sanity checks on available APIs. Therefore, PSD for different colors, for example is not tested here.
 
 ### Usage
 
@@ -186,7 +187,6 @@ TinyNoise library can be included in your project by:
 
 It is advised to always link the library rather than including source code. It makes the SW architecture cleaner and modular. Also, it can avoid issues with licenses and intellectual properly. 
 To link the TinyNoise library on your project just follow the example of the Makefile which is contained in this repo. Test executable links the TinyNoise static library.
-
 
 ## APIs Refence
 
