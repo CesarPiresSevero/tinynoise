@@ -17,7 +17,7 @@ I believe in **free and open source software**! Help the OSS community by donati
 * Computationally and memory efficient algorithm 
 * No math library used
 * White, brown and pink noise options
-* Unit-tested using XXXX
+* Unit tested using Unity
 
 ### Pseudo Random Number Generator Algorithm
 
@@ -118,40 +118,64 @@ This section will go into detail about the pseudo random number implementation o
 Make sure you have the following tools before start:
 * GCC
 * Make
-* XXXX
 
-This repo contains a Makefile for building the library and running tests. Calling *make* in the root folder results in: 
+A Makefile is used for compilation. Run the following command:
+
+```shell
+make
+```
+The message below should be printed: 
 
 ```
 ----- TinyNoise -----
 - Target rules:
     all      - Cleans, compiles and test the library
     lib      - Compiles the static library
-    tests    - Compiles with XXXX and run tests binary file
+    test     - Builds Unity framework and triggers test-runner
     clean    - Removes all build artifacts from lib and build folders
     help     - Prints a help message with target rules (Default)
 ```
 
-To build the static library (**libtinynoise.a**) and run XXXX tests, run the following command:
+To build the static library (**libtinynoise.a**), run the following command:
 
-```
-make all
+```shell
+make lib
 ```
 
-It output the following message:
+It should output the following message:
 
 ```
 ----- TinyNoise -----
-Cleaning files...
-Done!
 Compiling source files...
 Building the library...
-Building test executable...
-Running tests...
 Done!
 ```
 
 Built artifacts can be found in the **build** folder.
+
+### Testing
+
+Unity test framework is used to perform unit tests. It was chosen because it is extremely simple to setup and use for C code.
+
+By default, Unity is assumed to be located just outside of the repo folder. To get it setup run the follow commands:
+
+```shell
+git clone --depth 1 --branch v2.6.1 https://github.com/ThrowTheSwitch/Unity.git
+cd tinynoise
+```
+Feel free to change Unity's version or path, adjusting it in the Makefile. 
+
+Make sure that TinyNoise library is already built before running tests as:
+
+```shell
+make test
+```
+
+Alternatively, the following rule can be used to clean, build the library, build and run tests:
+
+```shell
+make all
+```
 
 ### Usage
 
@@ -161,26 +185,8 @@ TinyNoise library can be included in your project by:
 * Linking the library file on your Makefile
 
 It is advised to always link the library rather than including source code. It makes the SW architecture cleaner and modular. Also, it can avoid issues with licenses and intellectual properly. 
-To link the TinyNoise library on your project just follow the example of the Makefile which is contained in this repo:
+To link the TinyNoise library on your project just follow the example of the Makefile which is contained in this repo. Test executable links the TinyNoise static library.
 
-```
-# Include flags
-IFLAGS = -I$(SRCDIR)
-
-# Library name
-LIBNAME = tinynoise
-
-# Library linking flags
-LDFLAGS= -L$(BINDIR) -l$(LIBNAME)
-
-$(BINDIR)/$(MYEXE): $(LIBDIR)/$(MYSRC).o
-        @$(CC) $(LIBDIR)/$(MYSRC).o $(LDFLAGS) -o $(BINDIR)/$(MYEXE)  
-
-$(LIBDIR)/$(MYSRC).o: $(MYDIR)/$(MYSRC).c 
-        @$(CC) -c $^ -o $@ $(CFLAGS) $(IFLAGS) 
-```
- 
-The example above shows the linking of the library follow this repo folder structure. Feel free to change it to your needs.
 
 ## APIs Refence
 

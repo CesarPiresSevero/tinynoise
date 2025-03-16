@@ -54,12 +54,12 @@ help:
 	@echo "- Target rules:"
 	@echo "    all      - Cleans, compiles and test the library"
 	@echo "    lib      - Compiles the static library"
-	@echo "    tests    - Compiles with Unity and run tests binary file"
+	@echo "    test     - Builds Unity framework and triggers test-runner"
 	@echo "    clean    - Removes all build artifacts from lib and build folders"
 	@echo "    help     - Prints a help message with target rules (Default)"
 
 # Rule for cleaning, building and testing library
-all: clean tests
+all: clean lib test
 	$(info Done!)
 
 # Rule for building objects and static library
@@ -77,7 +77,7 @@ $(LIBDIR)/%.o: $(SRCDIR)/%.c
 	@$(CC) -c $^ -o $@ $(CFLAGS)
 
 # Rule for test executable build
-tests: lib$(LIBNAME).a $(BINDIR)/$(TESTEXE)
+test: $(BINDIR)/$(TESTEXE)
 	$(info Running tests...)
 	@./$(BINDIR)/$(TESTEXE)
 	
@@ -97,4 +97,4 @@ clean:
 	@rm -rvf $(BINDIR)/* $(LIBDIR)/*
 	$(info Done!)
 
-.PHONY:  all lib clean tests
+.PHONY:  all lib clean test
