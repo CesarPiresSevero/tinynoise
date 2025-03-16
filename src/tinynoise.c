@@ -98,7 +98,6 @@ int16_t tn_run(void)
     else if(color == BROWN)
     {
         /* 3 FIR LP 1 tap filters in series */
-        output = rand - ((prev[0]>>1) + (rand>>1));
         output = (prev[0]>>1) + (rand>>1);
         prev[0] = rand;
         output = (prev[1]>>1) + (output>>1);

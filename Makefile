@@ -11,6 +11,9 @@ SRCDIR := src
 LIBDIR := lib
 TESTDIR := test
 
+# Unity test framework source
+UNITYDIR := ../Unity/src
+
 # Name of the test source file
 TESTSRC := main
 
@@ -51,12 +54,12 @@ help:
 	@echo "- Target rules:"
 	@echo "    all      - Cleans, compiles and test the library"
 	@echo "    lib      - Compiles the static library"
-	@echo "    tests    - Compiles with cmocka and run tests binary file"
+	@echo "    test     - Builds Unity framework and triggers test-runner"
 	@echo "    clean    - Removes all build artifacts from lib and build folders"
 	@echo "    help     - Prints a help message with target rules (Default)"
 
 # Rule for cleaning, building and testing library
-all: clean tests
+all: clean lib test
 	$(info Done!)
 
 # Rule for building objects and static library
@@ -74,16 +77,19 @@ $(LIBDIR)/%.o: $(SRCDIR)/%.c
 	@$(CC) -c $^ -o $@ $(CFLAGS)
 
 # Rule for test executable build
-tests: lib$(LIBNAME).a $(BINDIR)/$(TESTEXE)
+test: $(BINDIR)/$(TESTEXE)
 	$(info Running tests...)
 	@./$(BINDIR)/$(TESTEXE)
 	
-$(BINDIR)/$(TESTEXE): $(LIBDIR)/$(TESTSRC).o
+$(BINDIR)/$(TESTEXE): $(LIBDIR)/$(TESTSRC).o $(LIBDIR)/unity.o
 	$(info Building test executable...)
-	@$(CC) $(LIBDIR)/$(TESTSRC).o $(LDFLAGS) -o $(BINDIR)/$(TESTEXE)  
+	@$(CC) $^ $(LDFLAGS) -o $@  
 
 $(LIBDIR)/$(TESTSRC).o: $(TESTDIR)/$(TESTSRC).c 
-	@$(CC) -c $^ -o $@ $(CFLAGS) $(IFLAGS) 
+	@$(CC) -c $^ -o $@ $(CFLAGS) $(IFLAGS) -I$(UNITYDIR)
+
+$(LIBDIR)/unity.o: $(UNITYDIR)/unity.c 
+	@$(CC) -c $^ -o $@ $(CFLAGS) -I$(UNITYDIR)
 
 # Rule for build artifacts clean
 clean:
@@ -91,4 +97,4 @@ clean:
 	@rm -rvf $(BINDIR)/* $(LIBDIR)/*
 	$(info Done!)
 
-.PHONY:  all lib clean tests
+.PHONY:  all lib clean test

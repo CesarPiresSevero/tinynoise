@@ -8,6 +8,12 @@
 #ifndef TINYNOISE_H
 #define TINYNOISE_H
 
+/* C++ wrap */
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include <stdint.h>
 
 /** @brief Default noise color*/
@@ -54,6 +60,11 @@ void tn_reset(void);
 */
 int16_t tn_run(void);
 
+/* C++ wrap */
+#ifdef __cplusplus
+}
+#endif
 
-#endif // TINYNOISE_H
+/* TINYNOISE_H */
+#endif
 
